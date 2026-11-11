@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>관심 뉴스 다이제스트</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{
+  --blue-500:#3182F6;--blue-50:#E8F3FF;
+  --grey-900:#191F28;--grey-700:#4E5968;--grey-600:#6B7684;--grey-500:#8B95A1;
+  --grey-200:#E5E8EB;--grey-100:#F2F4F6;--white:#FFFFFF;
+  --bg:var(--grey-100);--surface:var(--white);--text:var(--grey-900);--text-2:var(--grey-700);
+  --text-3:var(--grey-500);--line:var(--grey-200);--accent:var(--blue-500);--accent-weak:var(--blue-50);
+  --chip-active-bg:var(--grey-900);--chip-active-fg:var(--white);
+  --shadow-2:0 4px 12px rgba(2,32,71,.06),0 1px 2px rgba(2,32,71,.04);
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#17171C;--surface:#202027;--text:#FFFFFF;--text-2:#C3C3C6;--text-3:#7E7E87;
+  --line:#3C3C47;--accent:#3485FA;--accent-weak:#202C4D;
+  --chip-active-bg:#FFFFFF;--chip-active-fg:#17171C;--shadow-2:none;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;
+  font-size:15px;line-height:1.5;letter-spacing:-.005em;-webkit-font-smoothing:antialiased}
+main{max-width:640px;margin:0 auto;padding:48px 16px 80px}
+.hero{padding:0 8px 24px}
+.hero h1{margin:0 0 8px;font-size:28px;line-height:1.3;font-weight:700;letter-spacing:-.02em}
+.hero p{margin:0;color:var(--text-2);font-size:15px}
+.stats{display:flex;gap:8px;margin-top:16px;font-variant-numeric:tabular-nums}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;
+  font-size:13px;font-weight:600;color:var(--text-2)}
+.stat b{color:var(--text);font-weight:700}
+nav{display:flex;gap:8px;overflow-x:auto;padding:0 8px 8px;margin-bottom:16px;scrollbar-width:none}
+nav a{flex:none;height:34px;display:inline-flex;align-items:center;padding:0 14px;border-radius:999px;
+  border:1px solid var(--line);background:var(--surface);color:var(--text);text-decoration:none;
+  font-size:13px;font-weight:600;font-variant-numeric:tabular-nums;transition:background .2s var(--ease)}
+nav a:first-child{background:var(--chip-active-bg);color:var(--chip-active-fg);border-color:transparent}
+section.day{margin-bottom:40px;scroll-margin-top:16px}
+.dayhead{display:flex;justify-content:space-between;align-items:center;padding:0 8px;margin-bottom:12px}
+.dayhead h2{margin:0;font-size:20px;font-weight:700;letter-spacing:-.015em}
+.dayhead h2 span{color:var(--text-3);font-weight:600;font-size:15px;margin-left:6px;font-variant-numeric:tabular-nums}
+.textbtn{color:var(--accent);font-size:13px;font-weight:600;text-decoration:none;padding:10px 4px}
+.overview{background:var(--surface);border-radius:24px;padding:24px;margin-bottom:12px}
+.overview h3{margin:0 0 12px;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.overview ol{margin:0;padding:0;list-style:none;counter-reset:o}
+.overview li{counter-increment:o;display:flex;gap:12px;padding:8px 0;color:var(--text-2)}
+.overview li::before{content:counter(o);flex:none;width:22px;height:22px;border-radius:6px;
+  background:var(--accent-weak);color:var(--accent);font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;margin-top:1px}
+.cards{display:flex;flex-direction:column;gap:12px}
+a.card{display:block;position:relative;background:var(--surface);border-radius:20px;padding:20px 24px;
+  color:inherit;text-decoration:none;border:1px solid transparent;
+  transition:box-shadow .2s var(--ease),border-color .2s var(--ease)}
+a.card:hover{box-shadow:var(--shadow-2);border-color:var(--line)}
+a.card:active::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(0,0,0,.06)}
+.meta{display:flex;align-items:center;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.tag{height:22px;display:inline-flex;align-items:center;padding:0 8px;border-radius:6px;
+  font-size:12px;font-weight:600;background:var(--accent-weak);color:var(--accent)}
+.tag.n{background:var(--bg);color:var(--text-2)}
+.time{font-size:12px;color:var(--text-3);font-weight:500;font-variant-numeric:tabular-nums}
+.card h4{margin:0 0 8px;font-size:18px;line-height:1.45;font-weight:600;letter-spacing:-.01em;word-break:keep-all}
+.card p{margin:0 0 16px;color:var(--text-2);word-break:keep-all}
+.more{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--line);
+  font-size:13px;font-weight:600;color:var(--text-3)}
+.more svg{width:16px;height:16px;transition:transform .2s var(--ease)}
+a.card:hover .more{color:var(--text)}
+a.card:hover .more svg{transform:translateX(2px)}
+.empty{background:var(--surface);border-radius:20px;padding:32px 24px;text-align:center;color:var(--text-3)}
+@media (max-width:480px){main{padding-top:32px}.overview{padding:20px}a.card{padding:18px 20px}}
+</style></head>
+<body><main>
+<header class="hero">
+<h1>관심 뉴스 다이제스트</h1>
+<p>GeekNews에서 AI 에이전트, 업무 자동화, 클로드 소식만 골라 요약했어요.</p>
+<div class="stats"><span class="stat"><b>1</b>일 모음</span><span class="stat">기사 <b>5</b>건</span></div>
+</header>
+<nav><a href="#d2026-11-11">11월 11일</a></nav>
+<section class="day" id="d2026-11-11"><div class="dayhead"><h2>11월 11일 수요일<span>5건</span></h2><a class="textbtn" href="2026-11-11.md" download>마크다운 받기</a></div><div class="overview"><h3>오늘의 세 줄 요약</h3><ol><li>AI 에이전트가 화면 좌표 대신 OS 접근성 정보로 데스크톱 앱을 직접 다루는 도구(Vercel agent-desktop)가 나왔다.</li><li>에이전트 글쓰기 품질을 높이는 스킬, LLM 대화로 CCTV 영상을 다루는 NOX처럼 에이전트를 실무 도구에 붙이는 시도가 늘고 있다.</li><li>AI 회의록이 제안을 합의로 오기하는 문제와 Anthropic Glasswing의 낮은 수정 완료율은 자동화 결과에 사람 검토가 여전히 필요함을 보여 준다.</li></ol></div><div class="cards"><a class="card" href="https://news.hada.io/topic?id=36967" target="_blank" rel="noopener"><div class="meta"><span class="tag">AI 에이전트</span><span class="time">GeekNews · 21:10 추가</span></div><h4>Vercel agent-desktop - AI 에이전트가 데스크톱 앱을 조작하는 CLI</h4><p>Vercel이 AI 에이전트가 맥·윈도우·리눅스의 앱을 열고 메뉴 클릭, 입력, 창 조작까지 할 수 있게 해 주는 CLI를 공개했다. 운영체제 접근성 API로 화면 요소를 구조화된 데이터로 받아 ID로 조작하므로 마우스나 포커스를 빼앗지 않으며, CLI·MCP 서버·C 라이브러리 형태로 연결할 수 있다.</p><div class="more">원문 보기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="card" href="https://news.hada.io/topic?id=36988" target="_blank" rel="noopener"><div class="meta"><span class="tag">AI 에이전트</span><span class="time">GeekNews · 21:10 추가</span></div><h4>Show GN: 에이전트가 글을 제대로 쓰도록 만들기, Human-readable writing</h4><p>에이전트가 쓴 문서가 읽기 어렵다는 고민에서 출발해, 관련 연구를 바탕으로 만든 글쓰기 스킬을 공유한 글이다. 뭉뚱그린 명사형 표현을 누가 무엇을 하는지 드러나는 문장으로 바꾸고, 사실과 용어는 지키되 모호한 부분을 지어내지 않도록 에이전트에 지시한다.</p><div class="more">원문 보기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="card" href="https://news.hada.io/topic?id=36986" target="_blank" rel="noopener"><div class="meta"><span class="tag">업무 자동화</span><span class="time">GeekNews · 21:10 추가</span></div><h4>Ask GN: 비개발자인데, AI 회의록 요약에서 제가 제안한 게 합의한 걸로 정리됩니다</h4><p>영업 담당자가 고객 미팅 녹음을 AI로 요약하는데, 자기가 제안만 한 내용이 합의 사항처럼 정리되는 문제를 겪고 있다며 조언을 구한다. 발언자와 제안·합의를 구분해 달라고 프롬프트를 바꿔 조금 나아졌지만, 대화가 길게 얽힌 회의에서는 여전히 정확도가 떨어진다고 한다.</p><div class="more">원문 보기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="card" href="https://news.hada.io/topic?id=36979" target="_blank" rel="noopener"><div class="meta"><span class="tag">클로드</span><span class="time">GeekNews · 21:10 추가</span></div><h4>Show GN: NOX - LLM 채팅으로 영상을 찾고 제어하는 NVR/VMS 플랫폼</h4><p>1인 개발자가 만든 영상 녹화·관리 플랫폼 NOX는 자연어 채팅으로 특정 시각의 카메라 영상을 찾아 재생하고 시스템 상태를 물어볼 수 있다. 백업처럼 상태를 바꾸는 작업은 채팅이 초안만 만들고 사용자가 승인해야 실행되며, LLM은 Claude API나 내부 추론 서버 중에서 고를 수 있다.</p><div class="more">원문 보기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></a><a class="card" href="https://news.hada.io/topic?id=36971" target="_blank" rel="noopener"><div class="meta"><span class="tag">클로드</span><span class="time">GeekNews · 21:10 추가</span></div><h4>7개월이 지난 Glasswing, 기대에 못 미치는 발견으로 유지보수자에게 과도한 부담을 주다</h4><p>Anthropic의 취약점 발굴 프로젝트 Glasswing이 7개월간 3만 8천 건 가까운 발견을 냈지만, 실제 공개되거나 수정 완료된 건은 그에 비해 매우 적다는 분석이다. 정탐률 수치는 올랐으나 산정 방식에 의문이 있고, 검토되지 않은 보고가 오픈소스 유지보수자에게 부담이 되고 있다는 지적이 나온다.</p><div class="more">원문 보기<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></div></a></div></section>
+</main></body></html>
