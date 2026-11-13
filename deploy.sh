@@ -3,6 +3,7 @@
 set -e
 cd "$(dirname "$0")"
 python3 digest.py --build-only
+python3 finance_digest.py --build-only
 git add -A
 git commit -m "Update digest $(date +%F)" || true
 git push origin main
